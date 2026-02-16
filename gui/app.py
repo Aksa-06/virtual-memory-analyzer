@@ -4,7 +4,7 @@ from gui.layout import create_main_window
 from backend.engine import simulate
 from backend.detector import detect_thrashing
 from gui.graphs import draw
-from gui.audio import speak
+
 
 def run_simulation():
     loads = list(range(1, 30))
@@ -13,21 +13,17 @@ def run_simulation():
     faults = []
     cpu = []
 
-    speak("Simulation started. Demand paging enabled.")
-
     for l in loads:
         pf = simulate(l, frames)
         faults.append(pf)
-        cpu.append(max(0, 100 - pf*0.05))
+        cpu.append(max(0, 100 - pf * 0.05))
 
     t = detect_thrashing(loads, faults)
-
-    speak("Thrashing detected. CPU utilization collapsing.")
-    speak(f"Thrashing starts at load {t}")
 
     result_label.config(text=f"Thrashing starts at load: {t}")
 
     draw(loads, faults, cpu)
+
 
 root = create_main_window()
 root.title("Virtual Memory Performance Analyzer")
@@ -53,7 +49,7 @@ tk.Button(
     text="Run Simulation",
     command=run_simulation,
     font=body_font,
-    bg="#22c55e",          # emerald green
+    bg="#22c55e",  # emerald green
     fg="#022c22",
     activebackground="#16a34a",
     activeforeground="#f9fafb",
