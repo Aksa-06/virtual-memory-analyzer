@@ -1,12 +1,15 @@
+from collections import OrderedDict
+
 class LRU:
-    def __init__(self, capacity):
-        self.capacity = capacity
-        self.cache = []
+    def __init__(self):
+        self.cache = OrderedDict()
 
     def access(self, page):
         if page in self.cache:
-            self.cache.remove(page)
-        self.cache.append(page)
+            self.cache.move_to_end(page)
+        else:
+            self.cache[page] = True
 
     def evict(self):
-        return self.cache.pop(0)
+        return self.cache.popitem(last=False)[0]
+

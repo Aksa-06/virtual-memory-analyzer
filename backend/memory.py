@@ -4,7 +4,7 @@ class VirtualMemory:
     def __init__(self, frames):
         self.frames = frames
         self.memory = {}
-        self.lru = LRU(frames)
+        self.lru = LRU()
         self.page_faults = 0
 
     def access(self, pid, page):
@@ -19,5 +19,5 @@ class VirtualMemory:
             victim = self.lru.evict()
             del self.memory[victim]
 
-        self.memory[key] = pid
+        self.memory[key] = True
         self.lru.access(key)
